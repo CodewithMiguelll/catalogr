@@ -16,9 +16,25 @@ export async function fetchBooks(): Promise<Book[]> {
 
   const data = await res.json();
 
-  return data.map((book: any) => ({
-    ...book,
-    stock: Number(book.stock) || 0,
-    price: Number(book.price) || 0,
-  }));
+  // Checking for 
+  data.forEach((book: any, index: number) => {
+    console.log(index, book.title, book.createdAt);
+  });
+
+
+
+  return data
+  .filter(Boolean) // 🔥 removes undefined / null entries
+  .map((book: any) => {
+    const parsedDate = Date.parse(book.createdAt);
+
+    return {
+      ...book,
+      price: Number(book.price) || 0,
+      stock: Number(book.stock) || 0,
+      createdAt: Number.isNaN(parsedDate)
+        ? new Date().toISOString()
+        : new Date(parsedDate).toISOString(),
+    };
+  });
 }

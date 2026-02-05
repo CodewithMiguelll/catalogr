@@ -2,7 +2,6 @@
 
 import Header from "@/components/header";
 import SideBar from "@/components/sidebar";
-import { Search } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchBooks } from "@/lib/api";
 import { Book } from "@/lib/types";
@@ -14,6 +13,8 @@ export default function Home() {
     queryFn: fetchBooks,
   });
 
+  
+
   return (
     <div className="flex min-h-screen">
       <div className="hidden md:block">
@@ -23,22 +24,14 @@ export default function Home() {
       <div className="flex flex-col flex-1">
         <Header />
 
-        {/* Search bar */}
-        <div className="p-3 flex items-center mt-2">
-          <input
-            type="text"
-            placeholder="Search books..."
-            className="w-1/2 p-3 border border-gray-300 rounded-md"
-          />
-          <span className="bg-blue-500 rounded-sm p-3 ml-1 cursor-pointer">
-            <Search className="text-white" />
-          </span>
-        </div>
-
+        
         <main className="p-10">
           <h1 className="text-2xl md:text-4xl font-bold mb-2.5 md:mb-4">
             Welcome to Catalogr
           </h1>
+          <p className="text-muted-foreground mb-4">
+            Manage your books, genres, and more.
+          </p>
 
           {isLoading && <p>Loading books...</p>}
           {error && <p>Something went wrong.</p>}
