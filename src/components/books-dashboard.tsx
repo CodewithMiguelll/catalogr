@@ -11,6 +11,12 @@ const BooksDashboard = ({ books }: Props) => {
   
   const [search, setSearch] = useState("");
   const [stockFilter, setStockFilter] = useState<"all" | "in" | "out">("all");
+
+const ITEMS_PER_PAGE = 5;
+
+const [currentPage, setCurrentPage] = useState(1);
+
+
   const filteredBooks = books?.filter((book) => {
     const matchesSearch =
       book.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -25,6 +31,14 @@ const BooksDashboard = ({ books }: Props) => {
 
     return matchesSearch && matchesStock;
   });
+
+  const totalPages = Math.ceil(filteredBooks.length / ITEMS_PER_PAGE);
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+
+  const paginatedBooks = filteredBooks.slice(startIndex, endIndex);
+
 
   return (
     <>
@@ -66,7 +80,7 @@ const BooksDashboard = ({ books }: Props) => {
           </thead>
 
           <tbody>
-            {filteredBooks.map((book) => (
+            {paginatedBooks.map((book) => (
               <tr key={book.id} className="border-t">
                 <td className="p-3 font-medium">{book.title}</td>
                 <td className="p-3">{book.author}</td>
@@ -85,7 +99,8 @@ const BooksDashboard = ({ books }: Props) => {
                 </td>
               </tr>
             ))}
-            {filteredBooks.length === 0 && (
+
+            {paginatedBooks.length === 0 && (
               <tr>
                 <td
                   colSpan={6}
@@ -97,6 +112,29 @@ const BooksDashboard = ({ books }: Props) => {
             )}
           </tbody>
         </table>
+        {/* Pagination */}
+
+        <div className="flex justify-between items-center mt-4.5 space-x-2">
+          <div>
+            <p className="text-sm">
+              Page {currentPage} of {totalPages}
+            </p>
+          </div>
+          <div className="space-x-4">
+            <Button
+              onClick={() => setCurrentPage(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              Previous
+            </Button>
+            <Button
+              onClick={() => setCurrentPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
       </div>
     </>
   );
