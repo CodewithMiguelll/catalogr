@@ -24,7 +24,7 @@ export async function fetchBooks(): Promise<Book[]> {
 
 
   return data
-  .filter(Boolean) // 🔥 removes undefined / null entries
+  .filter(Boolean) 
   .map((book: any) => {
     const parsedDate = Date.parse(book.createdAt);
 
