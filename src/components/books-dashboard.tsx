@@ -1,6 +1,7 @@
 import { Book } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import Link from "next/link";
 import { Plus, Search } from "lucide-react";
 import AddBookDialog from "./dialog";
 
@@ -127,7 +128,14 @@ const [open, setOpen] = useState(false);
           <tbody>
             {paginatedBooks.map((book) => (
               <tr key={book.id} className="border-t">
-                <td className="p-2 md:p-3 font-medium">{book.title}</td>
+                <td className="p-2 md:p-3 font-medium">
+                  <Link
+                    href={`/book-details/${book.id}`}
+                    className="hover:underline text-blue-600 hover:text-blue-800 transition-colors"
+                  >
+                    {book.title}
+                  </Link>
+                </td>
                 <td className="p-2 md:p-3 hidden md:table-cell">
                   {book.author}
                 </td>

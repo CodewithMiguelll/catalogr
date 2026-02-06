@@ -16,16 +16,7 @@ export async function fetchBooks(): Promise<Book[]> {
 
   const data = await res.json();
 
-  // Checking for 
-  data.forEach((book: any, index: number) => {
-    console.log(index, book.title, book.createdAt);
-  });
-
-
-
-  return data
-  .filter(Boolean) 
-  .map((book: any) => {
+  return data.filter(Boolean).map((book: any) => {
     const parsedDate = Date.parse(book.createdAt);
 
     return {
@@ -37,4 +28,21 @@ export async function fetchBooks(): Promise<Book[]> {
         : new Date(parsedDate).toISOString(),
     };
   });
+}
+
+
+export async function fetchBookById(id: string): Promise<Book> {
+  // 1. Get all books
+  const books = await fetchBooks();
+
+  // 2. FIX: Convert book.id to String() so it matches the URL id
+  // "101" (string) will now match 101 (number)
+  const book = books.find((book) => String(book.id) === id);
+
+  // 3. FIX: Throw an error if not found (Stops React Query from crashing)
+  if (!book) {
+    throw new Error("Book not found");
+  }
+
+  return book;
 }
