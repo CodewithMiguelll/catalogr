@@ -9,12 +9,9 @@ const Header = () => {
   
   
   return (
-    <header className="flex items-center justify-between px-6 py-4 border-b bg-background">
-      {/* Left: Breadcrumb */}
-      <BooksBreadcrumb />
-
-      {/* Right: Primary action */}
-      
+    <header className="flex items-center justify-between px-6 py-6 border-b bg-background">
+      {/* Breadcrumb */}
+      <BooksBreadcrumb />      
     </header>
   );
 };
